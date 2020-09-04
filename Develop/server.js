@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 let WorkoutModel = require("./models/workoutBE");
 
+
 const PORT = process.env.PORT || 3000
 
 const app = express();
@@ -58,8 +59,8 @@ app.get("/api/workouts/range", (req, res) => {
 
 
 app.post('/api/workouts', function ({ body }, res) {
-  console.log("this is body",body)
-  WorkoutModel.create(body)
+  console.log("this is body", body)
+  WorkoutModel.create({})
     .then(doc => {
       res.json(doc);
     })
@@ -68,32 +69,14 @@ app.post('/api/workouts', function ({ body }, res) {
 
 app.put("/api/workouts/:id", (req, res) => {
 
-  let urlData = req.params;
-  let data = req.body;
-  WorkoutModel.updateOne({ _id: urlData.id }, {
-    $push: {
-      exercises: [
-        {
-          "type": data.type,
-          "name": data.name,
-          "duration": data.duration,
-          "distance": data.distance,
-          "weight": data.weight,
-          "reps": data.reps,
-          "sets": data.sets
-        }
-      ]
-    }
-  }).then(dbUpdate => {
-    res.json(dbUpdate);
-  })
+  WorkoutModel.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } }, { new: true })
+    .then(workout => {
+      res.json(workout);
+    })
     .catch(err => {
       res.json(err);
     });
-
 });
-
-
 
 
 app.listen(PORT, () => {

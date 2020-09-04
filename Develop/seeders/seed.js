@@ -1,6 +1,7 @@
 let mongoose = require("mongoose");
 let WorkoutModel = require("../models/workoutBE");
 
+
 mongoose.connect("mongodb+srv://tyler:12345@cluster0.mou2g.mongodb.net/Cluster0", {
   useNewUrlParser: true,
   useFindAndModify: false
