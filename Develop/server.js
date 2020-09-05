@@ -17,8 +17,10 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://tyler:12345@cluster0.mou2g.mongodb.net/Cluster0", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/WorkOutTracker", {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
   useFindAndModify: false
 });
 
