@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require('path');
 let WorkoutModel = require("./models/workoutBE");
 
 
@@ -7,8 +8,9 @@ const PORT = process.env.PORT || 3000
 
 const app = express();
 
-const path = require('path')
 
+
+//we can hear you 
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,7 +50,7 @@ app.get('/api/workouts', function (req, res) {
 })
 
 app.get("/api/workouts/range", (req, res) => {
-  WorkoutModel.find({})
+  WorkoutModel.find({}).limit(7)
     .then(dbWorkout => {
       res.json(dbWorkout);
     })
@@ -58,17 +60,22 @@ app.get("/api/workouts/range", (req, res) => {
 });
 
 
-app.post('/api/workouts', function ({ body }, res) {
-  console.log("this is body", body)
-  WorkoutModel.create({})
+app.post('/api/workouts',  (req, res) => {
+  console.log("this is body", req.body)
+  WorkoutModel.create(req.body)
     .then(doc => {
+      console.log("this is doc",doc)
       res.json(doc);
     })
+    .catch(err => {
+      res.json(err);
+    });
   // make a new workout
 })
 
 app.put("/api/workouts/:id", (req, res) => {
-
+  console.log("this is req", req.body)
+  console.log(req.params.id)
   WorkoutModel.findOneAndUpdate({ _id: req.params.id }, { $push: { exercises: req.body } }, { new: true })
     .then(workout => {
       res.json(workout);

@@ -135,7 +135,7 @@ let workoutSeed = [
     ]
   }
 ];
-
+//
 WorkoutModel.deleteMany({})
   .then(() => WorkoutModel.collection.insertMany(workoutSeed))
   .then(data => {
