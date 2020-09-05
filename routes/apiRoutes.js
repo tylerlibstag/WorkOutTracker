@@ -1,8 +1,7 @@
-var WorkoutModel = require("../models/workoutBE")
+var WorkoutModel = require("../models/workoutBE.js")
 module.exports = function(app){
     app.get('/api/workouts', function (req, res) {
-
-        WorkoutModel.find({}, function (err, doc) {
+        WorkoutModel.find({}).then(doc => {
           res.json(doc)
         });
       })
